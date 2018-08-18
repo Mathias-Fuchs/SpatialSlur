@@ -146,5 +146,6 @@ namespace SpatialSlur.Fields
             // http://www.iquilezles.org/www/articles/distance/distance.htm
             return Create(p => (function.ValueAt(p) - threshold) / (gradient.ValueAt(p).Length + SlurMath.ZeroToleranced));
         }
+
     }
 }
