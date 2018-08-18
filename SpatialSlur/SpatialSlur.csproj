@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Default Debug\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Default|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Default\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Rhino Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Rhino Debug\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE;DEBUG;USING_RHINO</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
@@ -51,7 +51,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Rhino|AnyCPU' ">
-    <OutputPath>bin\Rhino\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE;USING_RHINO</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
@@ -64,7 +64,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Unity Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Unity Debug\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE;DEBUG;USING_UNITY</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
@@ -74,7 +74,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Unity|AnyCPU' ">
-    <OutputPath>bin\Unity\</OutputPath>
+    <OutputPath>..\..\..\AppData\Roaming\Grasshopper\Libraries\</OutputPath>
     <DefineConstants>TRACE;USING_UNITY</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
@@ -88,7 +88,8 @@
   <ItemGroup>
     <Reference Include="RhinoCommon">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 6\System\RhinoCommon.dll</HintPath>
-      <Private>False</Private>
+	  <Private>False</Private>
+
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
