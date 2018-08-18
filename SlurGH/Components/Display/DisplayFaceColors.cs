@@ -12,6 +12,8 @@ using Grasshopper.Kernel.Types;
 
 using SpatialSlur.Meshes;
 using SpatialSlur.Rhino;
+using SpatialSlur.Grasshopper.Types;
+using SpatialSlur.SlurGH.Params;
 
 namespace SpatialSlur.Grasshopper.Components
 {
@@ -34,8 +36,8 @@ namespace SpatialSlur.Grasshopper.Components
         /// <inheritdoc />
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            throw new NotImplementedException();
-//             pManager.AddParameter(new HeMesh3dParam(), "heMesh", "heMesh", "Mesh to color", GH_ParamAccess.item);
+   
+            pManager.AddParameter(new HeMesh3dParam(), "heMesh", "heMesh", "Mesh to color", GH_ParamAccess.item);
             pManager.AddColourParameter("colors", "colors", "", GH_ParamAccess.list);
         }
 

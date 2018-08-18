@@ -74,6 +74,8 @@
     <Compile Include="Components\Display\NormalShader.cs" />
     <Compile Include="Components\Enums\FieldType.cs" />
     <Compile Include="Components\Enums\NoiseType.cs" />
+    <Compile Include="HeGraph3dParam.cs" />
+    <Compile Include="HeMesh3dParam.cs" />
     <Compile Include="Types\GH_HeGraph3d.cs" />
     <Compile Include="Types\GH_HeMesh3d.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
