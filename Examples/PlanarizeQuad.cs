@@ -6,7 +6,6 @@
 using System;
 using SpatialSlur.SlurCore;
 using SpatialSlur.SlurDynamics;
-using SpatialSlur.SlurDynamics;
 
 namespace SpatialSlur.Examples
 {

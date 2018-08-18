@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlurGH", "SlurGH\SlurGH.csp
 		{B57AF965-5201-4215-8077-50B3CC8B1F6B} = {B57AF965-5201-4215-8077-50B3CC8B1F6B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{C6CB6A3C-C7C3-47EC-A3E1-56B7D07F4378}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Default Debug|Any CPU = Default Debug|Any CPU

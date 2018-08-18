@@ -11,7 +11,6 @@ using SpatialSlur.SlurMesh;
 
 using SpatialSlur.SlurRhino;
 using SpatialSlur.SlurTools;
-using SpatialSlur.SlurTools;
 
 using SpatialSlur.SlurGH.Types;
 using SpatialSlur.SlurGH.Params;
