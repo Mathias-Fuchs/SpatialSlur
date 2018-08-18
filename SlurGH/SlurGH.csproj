@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="GH_IO">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 6\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Grasshopper">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 6\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
@@ -46,6 +47,7 @@
     </Reference>
     <Reference Include="RhinoCommon">
       <HintPath>..\..\..\..\..\..\Program Files\Rhino 6\System\RhinoCommon.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -64,35 +66,15 @@
     <Compile Include="Components\Mesh\MeshFlip.cs" />
     <Compile Include="Components\Mesh\MeshSeparate.cs" />
     <Compile Include="Components\Display\NormalShader.cs" />
-    <Compile Include="Components\SlurField\CreateNoiseField.cs" />
-    <Compile Include="Components\SlurField\CreateGridField.cs" />
     <Compile Include="Components\Enums\FieldType.cs" />
-    <Compile Include="Components\SlurField\EvaluateField.cs" />
-    <Compile Include="Components\SlurField\GeodesicDistance.cs" />
-    <Compile Include="Components\SlurField\IntegrateField.cs" />
     <Compile Include="Components\Enums\NoiseType.cs" />
-    <Compile Include="Components\SlurField\ResampleField.cs" />
-    <Compile Include="Components\SlurMesh\CreateDual.cs" />
-    <Compile Include="Components\SlurMesh\FacePlanarity.cs" />
-    <Compile Include="Components\SlurMesh\HeGraphFromLines.cs" />
-    <Compile Include="Components\SlurMesh\HeMeshFromPolylines.cs" />
-    <Compile Include="Components\SlurMesh\EdgeLines.cs" />
-    <Compile Include="Components\SlurMesh\HoleBoundaries.cs" />
-    <Compile Include="Components\SlurMesh\FacePolylines.cs" />
-    <Compile Include="Components\SlurMesh\HeMeshUnroll.cs" />
-    <Compile Include="Components\SlurMesh\VertexPositions.cs" />
-    <Compile Include="Components\SlurTools\CreateFeature.cs" />
     <Compile Include="Types\GH_HeGraph3d.cs" />
     <Compile Include="Types\GH_HeMesh3d.cs" />
-    <Compile Include="Params\HeGraph3dParam.cs" />
-    <Compile Include="Params\HeMesh3dParam.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Components\SlurTools\DynamicRemesherSolver.cs" />
-    <Compile Include="Components\SlurTools\DynamicRemesherSettings.cs" />
     <Compile Include="SlurGHInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,7 +88,7 @@
     <ProjectReference Include="..\SpatialSlur\SpatialSlur.csproj">
       <Project>{b57af965-5201-4215-8077-50b3cc8b1f6b}</Project>
       <Name>SpatialSlur</Name>
-      <Private>True</Private>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
