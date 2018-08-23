@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using D = SpatialSlur.SlurMath.Constantsd;
+
 namespace SpatialSlur
 {
     /// <summary>
@@ -124,36 +126,6 @@ namespace SpatialSlur
             return point;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d0"></param>
-        /// <param name="d1"></param>
-        /// <returns></returns>
-        public static Interval3d Intersect(Interval3d d0, Interval3d d1)
-        {
-            d0.X = Intervald.Intersect(d0.X, d1.X);
-            d0.Y = Intervald.Intersect(d0.Y, d1.Y);
-            d0.Z = Intervald.Intersect(d0.Z, d1.Z);
-            return d0;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static Interval3d Union(Interval3d a, Interval3d b)
-        {
-            a.X = Intervald.Union(a.X, b.X);
-            a.Y = Intervald.Union(a.Y, b.Y);
-            a.Z = Intervald.Union(a.Z, b.Z);
-            return a;
-        }
-
         #endregion
 
 
@@ -261,9 +233,9 @@ namespace SpatialSlur
 
             foreach (var p in points.Skip(1))
             {
-                X.IncludeIncreasing(p.X);
-                Y.IncludeIncreasing(p.Y);
-                Z.IncludeIncreasing(p.Z);
+                X.IncludePos(p.X);
+                Y.IncludePos(p.Y);
+                Z.IncludePos(p.Z);
             }
         }
 
@@ -402,7 +374,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Interval3d other, double epsilon = SlurMath.ZeroToleranced)
+        public bool ApproxEquals(Interval3d other, double epsilon = D.ZeroTolerance)
         {
             return
                 X.ApproxEquals(other.X, epsilon) && 
@@ -458,11 +430,11 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vector3d Wrap(Vector3d point)
+        public Vector3d Repeat(Vector3d point)
         {
-            point.X = X.Wrap(point.X);
-            point.Y = Y.Wrap(point.Y);
-            point.Z = Z.Wrap(point.Z);
+            point.X = X.Repeat(point.X);
+            point.Y = Y.Repeat(point.Y);
+            point.Z = Z.Repeat(point.Z);
             return point;
         }
 

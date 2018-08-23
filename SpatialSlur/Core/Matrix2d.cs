@@ -5,8 +5,8 @@
 
 using System;
 using System.Collections.Generic;
-using static System.Math;
-using static SpatialSlur.SlurMath;
+
+using D = SpatialSlur.SlurMath.Constantsd;
 
 namespace SpatialSlur
 {
@@ -31,7 +31,7 @@ namespace SpatialSlur
             /// <param name="lambda"></param>
             /// <param name="epsilon"></param>
             /// <returns></returns>
-            public static bool EigenSymmetric(Matrix2d A, out Matrix2d Q, out Vector2d lambda, double epsilon = ZeroToleranced)
+            public static bool EigenSymmetric(Matrix2d A, out Matrix2d Q, out Vector2d lambda, double epsilon = D.ZeroTolerance)
             {
                 // impl ref
                 // https://www.mpi-hd.mpg.de/personalhomes/globes/3x3/index.html
@@ -39,13 +39,13 @@ namespace SpatialSlur
 
                 if (A.SolveCharacteristic(out lambda.X, out lambda.Y, epsilon))
                 {
-                    if (Abs(A.M10) > epsilon)
+                    if (Math.Abs(A.M10) > epsilon)
                     {
                         Q.M00 = lambda.X - A.M11;
                         Q.M01 = lambda.Y - A.M11;
                         Q.M10 = Q.M11 = A.M10;
                     }
-                    else if (Abs(A.M01) > epsilon)
+                    else if (Math.Abs(A.M01) > epsilon)
                     {
                         Q.M00 = Q.M01 = A.M01;
                         Q.M10 = lambda.X - A.M00;
@@ -184,26 +184,17 @@ namespace SpatialSlur
         }
 
 
-        /*
         /// <summary>
-        /// Matrix vector multiplication
+        /// 
         /// </summary>
+        /// <param name="m0"></param>
+        /// <param name="m1"></param>
+        /// <param name="t"></param>
         /// <returns></returns>
-        public static Vec2d Multiply(Matrix2d matrix, Vec2d vector)
+        public static Matrix2d Lerp(Matrix2d m0, Matrix2d m1, double t)
         {
-            return matrix.Apply(vector);
+            return m0.LerpTo(m1, t);
         }
-
-
-        /// <summary>
-        /// Matrix multiplication
-        /// </summary>
-        /// <returns></returns>
-        public static Matrix2d Multiply(Matrix2d m0, Matrix2d m1)
-        {
-            return m0.Apply(m1);
-        }
-        */
 
 
         /// <summary>
@@ -283,7 +274,7 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static Matrix2d CreateJacobian(Func<Vector2d, Vector2d> function, Vector2d vector, double epsilon = SlurMath.ZeroToleranced)
+        public static Matrix2d CreateJacobian(Func<Vector2d, Vector2d> function, Vector2d vector, double epsilon = D.ZeroTolerance)
         {
             (var x, var y) = vector;
             
@@ -301,12 +292,12 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static Matrix2d CreateHessian(Func<Vector2d, double> function, Vector2d vector, double epsilon = ZeroToleranced)
+        public static Matrix2d CreateHessian(Func<Vector2d, double> function, Vector2d vector, double epsilon = D.ZeroTolerance)
         {
             return CreateJacobian(p => Geometry.GetGradient(function, vector, epsilon), vector, epsilon);
         }
 
-        #endregion
+#endregion
 
 
         /// <summary>Entry at row 0 column 0</summary>
@@ -476,8 +467,7 @@ namespace SpatialSlur
 
 
         /// <summary>
-        /// Returns the adjugate matrix.
-        /// This is defined as the transpose of the cofactor matrix.
+        /// Returns the adjugate matrix i.e. the transpose of the cofactor matrix.
         /// </summary>
         public Matrix2d Adjugate
         {
@@ -553,7 +543,7 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool IsSymmetric(double epsilon = ZeroToleranced)
+        public bool IsSymmetric(double epsilon = D.ZeroTolerance)
         {
             return SlurMath.ApproxEquals(M01, M10);
         }
@@ -671,7 +661,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Matrix2d other, double epsilon = ZeroToleranced)
+        public bool ApproxEquals(Matrix2d other, double epsilon = D.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(M00, other.M00, epsilon) &&
@@ -690,9 +680,9 @@ namespace SpatialSlur
         /// <param name="r1"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool SolveCharacteristic(out double r0, out double r1, double epsilon = ZeroToleranced)
+        public bool SolveCharacteristic(out double r0, out double r1, double epsilon = D.ZeroTolerance)
         {
-            return SolveQuadratic(1.0, -Trace, Determinant, out r0, out r1, epsilon) > 0;
+            return SlurMath.SolveQuadratic(1.0, -Trace, Determinant, out r0, out r1, epsilon) > 0;
         }
 
 
@@ -709,7 +699,7 @@ namespace SpatialSlur
 
             var det = Determinant;
 
-            if (Abs(det) > 0.0)
+            if (Math.Abs(det) > 0.0)
             {
                 det = 1.0 / det;
                 x.X = (M11 * b.X - M01 * b.Y) * det;
@@ -720,6 +710,20 @@ namespace SpatialSlur
             // no unique solution
             x = Vector2d.Zero;
             return false;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public Matrix2d LerpTo(Matrix2d other, double factor)
+        {
+            return CreateFromRows(
+                Row0.LerpTo(other.Row0, factor),
+                Row1.LerpTo(other.Row1, factor));
         }
 
 

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using D = SpatialSlur.SlurMath.Constantsd;
+
 namespace SpatialSlur
 {
     /// <summary>
@@ -118,34 +120,6 @@ namespace SpatialSlur
             return point;
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d0"></param>
-        /// <param name="d1"></param>
-        /// <returns></returns>
-        public static Interval2d Intersect(Interval2d d0, Interval2d d1)
-        {
-            d0.X = Intervald.Intersect(d0.X, d1.X);
-            d0.Y = Intervald.Intersect(d0.Y, d1.Y);
-            return d0;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static Interval2d Union(Interval2d a, Interval2d b)
-        {
-            a.X = Intervald.Union(a.X, b.X);
-            a.Y = Intervald.Union(a.Y, b.Y);
-            return a;
-        }
-
         #endregion
 
 
@@ -241,8 +215,8 @@ namespace SpatialSlur
 
             foreach(var p in points.Skip(1))
             {
-                X.IncludeIncreasing(p.X);
-                Y.IncludeIncreasing(p.Y);
+                X.IncludePos(p.X);
+                Y.IncludePos(p.Y);
             }
         }
 
@@ -380,7 +354,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Interval2d other, double epsilon = SlurMath.ZeroToleranced)
+        public bool ApproxEquals(Interval2d other, double epsilon = D.ZeroTolerance)
         {
             return 
                 X.ApproxEquals(other.X, epsilon) && 
@@ -432,10 +406,10 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
-        public Vector2d Wrap(Vector2d point)
+        public Vector2d Repeat(Vector2d point)
         {
-            point.X = X.Wrap(point.X);
-            point.Y = Y.Wrap(point.Y);
+            point.X = X.Repeat(point.X);
+            point.Y = Y.Repeat(point.Y);
             return point;
         }
 

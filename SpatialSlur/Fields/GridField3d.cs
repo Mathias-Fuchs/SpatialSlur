@@ -25,6 +25,9 @@ namespace SpatialSlur.Fields
 
         /// <summary></summary>
         public static readonly GridField3dFactory<Vector3d> Vector3d = new GridField3dVector3d.Factory();
+
+        /// <summary></summary>
+        public static readonly GridField3dFactory<Matrix3d> Matrix3d = new GridField3dMatrix3d.Factory();
     }
 
 
@@ -33,7 +36,7 @@ namespace SpatialSlur.Fields
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public abstract class GridField3d<T> : Grid3d, IField2d<T>, IField3d<T>, ISampledField3d<T>
+    public abstract class GridField3d<T> : Grid3d, ISampledField3d<T>
         where T : struct
     {
         #region Static Members
@@ -96,7 +99,8 @@ namespace SpatialSlur.Fields
 
 
         /// <summary>
-        /// 
+        /// Gets or sets the value at the give point in grid space.
+        /// Note that this performs bounds checks for each dimension.
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
@@ -676,12 +680,6 @@ namespace SpatialSlur.Fields
         }
 
 
-        T IField2d<T>.ValueAt(Vector2d point)
-        {
-            return ValueAt(new Vector3d(point.X, point.Y, 0.0));
-        }
-
-
         ISampledField<T> ISampledField<T>.Duplicate(bool setValues)
         {
             return Duplicate(setValues);
@@ -717,6 +715,6 @@ namespace SpatialSlur.Fields
             return ToWorldSpace(index);
         }
 
-        #endregion
+#endregion
     }
 }

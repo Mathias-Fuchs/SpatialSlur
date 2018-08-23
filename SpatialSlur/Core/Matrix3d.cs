@@ -6,8 +6,7 @@
 using System;
 using System.Collections.Generic;
 
-using static System.Math;
-using static SpatialSlur.SlurMath;
+using D = SpatialSlur.SlurMath.Constantsd;
 
 namespace SpatialSlur
 {
@@ -63,7 +62,7 @@ namespace SpatialSlur
             /// <summary>
             /// Returns the eigen decomposition of the given matrix A.
             /// </summary>
-            public static void EigenSymmetric(Matrix3d A, out Matrix3d Q, out Vector3d lambda, double epsilon = ZeroToleranced, int maxSteps = 16)
+            public static void EigenSymmetric(Matrix3d A, out Matrix3d Q, out Vector3d lambda, double epsilon = D.ZeroTolerance, int maxSteps = 16)
             {
                 EigenSymmetric(ref A, out Q, out lambda, epsilon, maxSteps);
             }
@@ -72,7 +71,7 @@ namespace SpatialSlur
             /// <summary>
             /// Returns the eigen decomposition of the given matrix A.
             /// </summary>
-            public static void EigenSymmetric(ref Matrix3d A, out Matrix3d Q, out Vector3d lambda, double epsilon = ZeroToleranced, int maxSteps = 16)
+            public static void EigenSymmetric(ref Matrix3d A, out Matrix3d Q, out Vector3d lambda, double epsilon = D.ZeroTolerance, int maxSteps = 16)
             {
                 // impl refs
                 // https://www2.units.it/ipl/students_area/imm2/files/Numerical_Recipes.pdf (11.1)
@@ -95,7 +94,7 @@ namespace SpatialSlur
             /// <param name="epsilon"></param>
             /// <param name="maxSteps"></param>
             /// <returns></returns>
-            private static bool DiagonalizeJacobi(ref Matrix3d A, ref Matrix3d V, double epsilon = ZeroToleranced, int maxSteps = 16)
+            private static bool DiagonalizeJacobi(ref Matrix3d A, ref Matrix3d V, double epsilon = D.ZeroTolerance, int maxSteps = 16)
             {
                 // impl ref
                 // https://www2.units.it/ipl/students_area/imm2/files/Numerical_Recipes.pdf (11.1)
@@ -106,9 +105,9 @@ namespace SpatialSlur
 
                 while (maxSteps-- > 0)
                 {
-                    var a01 = Abs(A.M01);
-                    var a02 = Abs(A.M02);
-                    var a12 = Abs(A.M12);
+                    var a01 = Math.Abs(A.M01);
+                    var a02 = Math.Abs(A.M02);
+                    var a12 = Math.Abs(A.M12);
 
                     // Create Jacobi rotation P from max off-diagonal value of A
                     if (a01 > a02 && a01 > a12)
@@ -192,8 +191,8 @@ namespace SpatialSlur
             /// <param name="s"></param>
             private static void GetJacobiTerms(double b, out double c, out double s)
             {
-                var t = Sign(b) / (Abs(b) + Sqrt(b * b + 1.0));
-                c = 1.0 / Sqrt(t * t + 1.0);
+                var t = Math.Sign(b) / (Math.Abs(b) + Math.Sqrt(b * b + 1.0));
+                c = 1.0 / Math.Sqrt(t * t + 1.0);
                 s = c * t;
             }
 
@@ -205,13 +204,13 @@ namespace SpatialSlur
             /// <param name="lambda"></param>
             private static void SortEigenResults(ref Matrix3d Q, ref Vector3d lambda)
             {
-                if (Abs(lambda.Z) > Abs(lambda.Y))
+                if (Math.Abs(lambda.Z) > Math.Abs(lambda.Y))
                     Swap12(ref Q, ref lambda);
 
-                if (Abs(lambda.Y) > Abs(lambda.X))
+                if (Math.Abs(lambda.Y) > Math.Abs(lambda.X))
                     Swap01(ref Q, ref lambda);
 
-                if (Abs(lambda.Z) > Abs(lambda.Y))
+                if (Math.Abs(lambda.Z) > Math.Abs(lambda.Y))
                     Swap12(ref Q, ref lambda);
 
                 void Swap01(ref Matrix3d A, ref Vector3d b)
@@ -395,7 +394,20 @@ namespace SpatialSlur
 
             return matrix;
         }
-       
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m0"></param>
+        /// <param name="m1"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Matrix3d Lerp(Matrix3d m0, Matrix3d m1, double t)
+        {
+            return m0.LerpTo(m1, t);
+        }
+
 
         /// <summary>
         /// 
@@ -484,7 +496,7 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static Matrix3d CreateJacobian(Func<Vector3d, Vector3d> function, Vector3d vector, double epsilon = ZeroToleranced)
+        public static Matrix3d CreateJacobian(Func<Vector3d, Vector3d> function, Vector3d vector, double epsilon = D.ZeroTolerance)
         {
             (var x, var y, var z) = vector;
 
@@ -503,7 +515,7 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static Matrix3d CreateHessian(Func<Vector3d, double> function, Vector3d vector, double epsilon = ZeroToleranced)
+        public static Matrix3d CreateHessian(Func<Vector3d, double> function, Vector3d vector, double epsilon = D.ZeroTolerance)
         {
             return CreateJacobian(p => Geometry.GetGradient(function, vector, epsilon), vector, epsilon);
         }
@@ -785,10 +797,9 @@ namespace SpatialSlur
             }
         }
 
-        
+
         /// <summary>
-        /// Returns the adjugate matrix.
-        /// This is defined as the transpose of the cofactor matrix.
+        /// Returns the adjugate matrix i.e. the transpose of the cofactor matrix.
         /// </summary>
         public Matrix3d Adjugate
         {
@@ -903,7 +914,7 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool IsSymmetric(double epsilon = ZeroToleranced)
+        public bool IsSymmetric(double epsilon = D.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(M01, M10) &&
@@ -1085,7 +1096,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Matrix3d other, double epsilon = ZeroToleranced)
+        public bool ApproxEquals(Matrix3d other, double epsilon = D.ZeroTolerance)
         {
             return ApproxEquals(ref other, epsilon);
         }
@@ -1097,7 +1108,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(ref Matrix3d other, double epsilon = ZeroToleranced)
+        public bool ApproxEquals(ref Matrix3d other, double epsilon = D.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(M00, other.M00, epsilon) &&
@@ -1118,12 +1129,12 @@ namespace SpatialSlur
         /// Returns the roots of the characteristic polynomial of this matrix.
         /// These are also the eigenvalues of this matrix.
         /// </summary>
-        public bool SolveCharacteristic(out double r0, out double r1, out double r2, double epsilon = ZeroToleranced)
+        public bool SolveCharacteristic(out double r0, out double r1, out double r2, double epsilon = D.ZeroTolerance)
         {
             // impl ref
             // https://math.stackexchange.com/questions/1721765/compute-the-characteristic-equation-3x3-matrix?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 
-            return SolveCubic(-Trace, Minor00 + Minor11 + Minor22, -Determinant, out r0, out r1, out r2, epsilon) > 0;
+            return SlurMath.SolveCubic(-Trace, Minor00 + Minor11 + Minor22, -Determinant, out r0, out r1, out r2, epsilon) > 0;
         }
 
 
@@ -1140,6 +1151,21 @@ namespace SpatialSlur
 
             // TODO
             throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public Matrix3d LerpTo(Matrix3d other, double factor)
+        {
+            return CreateFromRows(
+                Row0.LerpTo(other.Row0, factor),
+                Row1.LerpTo(other.Row1, factor),
+                Row2.LerpTo(other.Row2, factor));
         }
 
 

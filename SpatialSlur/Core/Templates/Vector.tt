@@ -12,14 +12,14 @@ var scalarProperties = new Dictionary<string, Dictionary<string, string>>()
         "double", new Dictionary<string, string>()
         {
             {"Suffix", "d"},             
-            {"Epsilon", "SlurMath.ZeroToleranced"}
+            {"Epsilon", "D.ZeroTolerance"}
         }
     },
     {
         "float", new Dictionary<string, string>()
         {
             {"Suffix", "f"},             
-            {"Epsilon", "SlurMath.ZeroTolerancef"}
+            {"Epsilon", "F.ZeroTolerance"}
         }
     }
 };
@@ -39,6 +39,9 @@ using System.Drawing;
 using SpatialSlur.Collections;
 
 using static System.Threading.Tasks.Parallel;
+
+using D = SpatialSlur.SlurMath.Constantsd;
+using F = SpatialSlur.SlurMath.Constantsf;
 
 namespace SpatialSlur
 {
@@ -100,6 +103,19 @@ foreach(string t in types)
                 {
                     for (int i = range.Item1; i < range.Item2; i++)
                         result[i] = Math.Abs(vector[i]);
+                });
+            }
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public static void Sqrt(<#= vecIn #> vector, <#= vecOut #> result)
+            {
+                ForEach(Partitioner.Create(0, vector.Count), range =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        result[i] = SlurMath.Sqrt(vector[i]);
                 });
             }
 
@@ -394,7 +410,7 @@ foreach(string t in types)
 
                 if (d > 0.0<#= s #>)
                 {
-                    Multiply(vector, 1.0<#= s #> / Sqrt(d), result);
+                    Multiply(vector, 1.0<#= s #> / SlurMath.Sqrt(d), result);
                     return true;
                 }
 
@@ -556,6 +572,16 @@ foreach(string t in types)
         {
             for (int i = 0; i < vector.Count; i++)
                 result[i] = Math.Abs(vector[i]);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Sqrt(<#= vecIn #> vector, <#= vecOut #> result)
+        {
+            for (int i = 0; i < vector.Count; i++)
+                result[i] = SlurMath.Sqrt(vector[i]);
         }
 
 
@@ -843,7 +869,7 @@ foreach(string t in types)
         /// </summary>
         public static <#= t #> NormL2(<#= vecIn #> vector)
         {
-            return Sqrt(Dot(vector, vector));
+            return SlurMath.Sqrt(Dot(vector, vector));
         }
 
 
@@ -866,7 +892,7 @@ foreach(string t in types)
         /// </summary>
         public static <#= t #> DistanceL2(<#= vecIn #> v0, <#= vecIn #> v1)
         {
-            return Sqrt(SquareDistanceL2(v0, v1));
+            return SlurMath.Sqrt(SquareDistanceL2(v0, v1));
         }
 
 
@@ -896,7 +922,7 @@ foreach(string t in types)
 
             if (d > 0.0<#= s #>)
             {
-                Multiply(vector, 1.0<#= s #> / Sqrt(d), result);
+                Multiply(vector, 1.0<#= s #> / SlurMath.Sqrt(d), result);
                 return true;
             }
 
@@ -908,22 +934,5 @@ foreach(string t in types)
 <#
 }
 #>
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static double Sqrt(double x)
-        {
-            return Math.Sqrt(x);
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static float Sqrt(float x)
-        {
-            return (float)Math.Sqrt(x);
-        }
 	}
 }

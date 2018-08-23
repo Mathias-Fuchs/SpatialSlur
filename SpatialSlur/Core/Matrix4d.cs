@@ -4,7 +4,8 @@
  */
 
 using System;
-using static SpatialSlur.SlurMath;
+
+using D = SpatialSlur.SlurMath.Constantsd;
 
 namespace SpatialSlur
 {
@@ -181,8 +182,21 @@ namespace SpatialSlur
 
             return matrix;
         }
-        
-        
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m0"></param>
+        /// <param name="m1"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Matrix4d Lerp(Matrix4d m0, Matrix4d m1, double t)
+        {
+            return m0.LerpTo(m1, t);
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -228,7 +242,7 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public static Matrix4d CreateJacobian(Func<Vector4d, Vector4d> function, Vector4d vector, double epsilon = ZeroToleranced)
+        public static Matrix4d CreateJacobian(Func<Vector4d, Vector4d> function, Vector4d vector, double epsilon = D.ZeroTolerance)
         {
             (var x, var y, var z, var w) = vector;
 
@@ -578,7 +592,7 @@ namespace SpatialSlur
 
 
         /// <summary>
-        /// 
+        /// Returns the matrix of minors.
         /// </summary>
         public Matrix4d Minor
         {
@@ -595,7 +609,7 @@ namespace SpatialSlur
         
 
         /// <summary>
-        /// Returns the transpose of the cofactor matrix
+        /// Returns the cofactor matrix
         /// </summary>
         public Matrix4d Cofactor
         {
@@ -612,7 +626,7 @@ namespace SpatialSlur
 
 
         /// <summary>
-        /// Returns the transpose of the cofactor matrix
+        /// Returns the adjugate matrix i.e. the transpose of the cofactor matrix.
         /// </summary>
         public Matrix4d Adjugate
         {
@@ -874,7 +888,7 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool IsSymmetric(double epsilon = ZeroToleranced)
+        public bool IsSymmetric(double epsilon = D.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(M01, M10) &&
@@ -1060,7 +1074,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Matrix4d other, double epsilon = ZeroToleranced)
+        public bool ApproxEquals(Matrix4d other, double epsilon = D.ZeroTolerance)
         {
             return ApproxEquals(ref other, epsilon);
         }
@@ -1072,7 +1086,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(ref Matrix4d other, double epsilon = ZeroToleranced)
+        public bool ApproxEquals(ref Matrix4d other, double epsilon = D.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(M00, other.M00, epsilon) &&
@@ -1094,6 +1108,22 @@ namespace SpatialSlur
                 SlurMath.ApproxEquals(M31, other.M31, epsilon) &&
                 SlurMath.ApproxEquals(M32, other.M32, epsilon) &&
                 SlurMath.ApproxEquals(M33, other.M33, epsilon);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="factor"></param>
+        /// <returns></returns>
+        public Matrix4d LerpTo(Matrix4d other, double factor)
+        {
+            return CreateFromRows(
+                Row0.LerpTo(other.Row0, factor),
+                Row1.LerpTo(other.Row1, factor),
+                Row2.LerpTo(other.Row2, factor),
+                Row3.LerpTo(other.Row3, factor));
         }
 
 

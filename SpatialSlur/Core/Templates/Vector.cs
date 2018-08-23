@@ -14,6 +14,9 @@ using SpatialSlur.Collections;
 
 using static System.Threading.Tasks.Parallel;
 
+using D = SpatialSlur.SlurMath.Constantsd;
+using F = SpatialSlur.SlurMath.Constantsf;
+
 namespace SpatialSlur
 {
 	/// <summary>
@@ -64,6 +67,19 @@ namespace SpatialSlur
                 {
                     for (int i = range.Item1; i < range.Item2; i++)
                         result[i] = Math.Abs(vector[i]);
+                });
+            }
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public static void Sqrt(ReadOnlyArrayView<double> vector, ArrayView<double> result)
+            {
+                ForEach(Partitioner.Create(0, vector.Count), range =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        result[i] = SlurMath.Sqrt(vector[i]);
                 });
             }
 
@@ -358,7 +374,7 @@ namespace SpatialSlur
 
                 if (d > 0.0d)
                 {
-                    Multiply(vector, 1.0d / Sqrt(d), result);
+                    Multiply(vector, 1.0d / SlurMath.Sqrt(d), result);
                     return true;
                 }
 
@@ -405,6 +421,19 @@ namespace SpatialSlur
                 {
                     for (int i = range.Item1; i < range.Item2; i++)
                         result[i] = Math.Abs(vector[i]);
+                });
+            }
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public static void Sqrt(ReadOnlyArrayView<float> vector, ArrayView<float> result)
+            {
+                ForEach(Partitioner.Create(0, vector.Count), range =>
+                {
+                    for (int i = range.Item1; i < range.Item2; i++)
+                        result[i] = SlurMath.Sqrt(vector[i]);
                 });
             }
 
@@ -699,7 +728,7 @@ namespace SpatialSlur
 
                 if (d > 0.0f)
                 {
-                    Multiply(vector, 1.0f / Sqrt(d), result);
+                    Multiply(vector, 1.0f / SlurMath.Sqrt(d), result);
                     return true;
                 }
 
@@ -800,7 +829,7 @@ namespace SpatialSlur
         /// <summary>
         /// 
         /// </summary>
-        public static bool ApproxEquals(ReadOnlyArrayView<double> v0, ReadOnlyArrayView<double> v1, double epsilon = SlurMath.ZeroToleranced)
+        public static bool ApproxEquals(ReadOnlyArrayView<double> v0, ReadOnlyArrayView<double> v1, double epsilon = D.ZeroTolerance)
         {
             for (int i = 0; i < v0.Count; i++)
                 if (Math.Abs(v1[i] - v0[i]) >= epsilon) return false;
@@ -848,6 +877,16 @@ namespace SpatialSlur
         {
             for (int i = 0; i < vector.Count; i++)
                 result[i] = Math.Abs(vector[i]);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Sqrt(ReadOnlyArrayView<double> vector, ArrayView<double> result)
+        {
+            for (int i = 0; i < vector.Count; i++)
+                result[i] = SlurMath.Sqrt(vector[i]);
         }
 
 
@@ -1135,7 +1174,7 @@ namespace SpatialSlur
         /// </summary>
         public static double NormL2(ReadOnlyArrayView<double> vector)
         {
-            return Sqrt(Dot(vector, vector));
+            return SlurMath.Sqrt(Dot(vector, vector));
         }
 
 
@@ -1158,7 +1197,7 @@ namespace SpatialSlur
         /// </summary>
         public static double DistanceL2(ReadOnlyArrayView<double> v0, ReadOnlyArrayView<double> v1)
         {
-            return Sqrt(SquareDistanceL2(v0, v1));
+            return SlurMath.Sqrt(SquareDistanceL2(v0, v1));
         }
 
 
@@ -1188,7 +1227,7 @@ namespace SpatialSlur
 
             if (d > 0.0d)
             {
-                Multiply(vector, 1.0d / Sqrt(d), result);
+                Multiply(vector, 1.0d / SlurMath.Sqrt(d), result);
                 return true;
             }
 
@@ -1287,7 +1326,7 @@ namespace SpatialSlur
         /// <summary>
         /// 
         /// </summary>
-        public static bool ApproxEquals(ReadOnlyArrayView<float> v0, ReadOnlyArrayView<float> v1, float epsilon = SlurMath.ZeroTolerancef)
+        public static bool ApproxEquals(ReadOnlyArrayView<float> v0, ReadOnlyArrayView<float> v1, float epsilon = F.ZeroTolerance)
         {
             for (int i = 0; i < v0.Count; i++)
                 if (Math.Abs(v1[i] - v0[i]) >= epsilon) return false;
@@ -1335,6 +1374,16 @@ namespace SpatialSlur
         {
             for (int i = 0; i < vector.Count; i++)
                 result[i] = Math.Abs(vector[i]);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void Sqrt(ReadOnlyArrayView<float> vector, ArrayView<float> result)
+        {
+            for (int i = 0; i < vector.Count; i++)
+                result[i] = SlurMath.Sqrt(vector[i]);
         }
 
 
@@ -1622,7 +1671,7 @@ namespace SpatialSlur
         /// </summary>
         public static float NormL2(ReadOnlyArrayView<float> vector)
         {
-            return Sqrt(Dot(vector, vector));
+            return SlurMath.Sqrt(Dot(vector, vector));
         }
 
 
@@ -1645,7 +1694,7 @@ namespace SpatialSlur
         /// </summary>
         public static float DistanceL2(ReadOnlyArrayView<float> v0, ReadOnlyArrayView<float> v1)
         {
-            return Sqrt(SquareDistanceL2(v0, v1));
+            return SlurMath.Sqrt(SquareDistanceL2(v0, v1));
         }
 
 
@@ -1675,7 +1724,7 @@ namespace SpatialSlur
 
             if (d > 0.0f)
             {
-                Multiply(vector, 1.0f / Sqrt(d), result);
+                Multiply(vector, 1.0f / SlurMath.Sqrt(d), result);
                 return true;
             }
 
@@ -1684,22 +1733,5 @@ namespace SpatialSlur
 
 		#endregion
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static double Sqrt(double x)
-        {
-            return Math.Sqrt(x);
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static float Sqrt(float x)
-        {
-            return (float)Math.Sqrt(x);
-        }
 	}
 }

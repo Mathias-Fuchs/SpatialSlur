@@ -5,7 +5,7 @@
 
 using System;
 
-using D = SpatialSlur.SlurMath.Constantsd;
+using F = SpatialSlur.SlurMath.Constantsf;
 
 namespace SpatialSlur
 {
@@ -13,27 +13,25 @@ namespace SpatialSlur
     /// 
     /// </summary>
     [Serializable]
-    public partial struct Vector4d
+    public partial struct Vector3f
     {
         #region Static Members
 
         /// <summary></summary>
-        public static Vector4d Zero = new Vector4d();
+        public static readonly Vector3f Zero = new Vector3f();
         /// <summary></summary>
-        public static Vector4d UnitX = new Vector4d(1.0, 0.0, 0.0, 0.0);
+        public static readonly Vector3f UnitX = new Vector3f(1.0f, 0.0f, 0.0f);
         /// <summary></summary>
-        public static Vector4d UnitY = new Vector4d(0.0, 1.0, 0.0, 0.0);
+        public static readonly Vector3f UnitY = new Vector3f(0.0f, 1.0f, 0.0f);
         /// <summary></summary>
-        public static Vector4d UnitZ = new Vector4d(0.0, 0.0, 1.0, 0.0);
-        /// <summary></summary>
-        public static Vector4d UnitW = new Vector4d(0.0, 0.0, 0.0, 1.0);
+        public static readonly Vector3f UnitZ = new Vector3f(0.0f, 0.0f, 1.0f);
 
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="vector"></param>
-        public static implicit operator string(Vector4d vector)
+        public static implicit operator string(Vector3f vector)
         {
             return vector.ToString();
         }
@@ -42,11 +40,10 @@ namespace SpatialSlur
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="quaternion"></param>
-        /// <returns></returns>
-        public static implicit operator Vector4d(Quaterniond quaternion)
+        /// <param name="vector"></param>
+        public static implicit operator Vector3f(Vector3i vector)
         {
-            return new Vector4d(quaternion.X, quaternion.Y, quaternion.Z, quaternion.W);
+            return vector.As3f;
         }
 
 
@@ -56,12 +53,11 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d operator +(Vector4d v0, Vector4d v1)
+        public static Vector3f operator +(Vector3f v0, Vector3f v1)
         {
             v0.X += v1.X;
             v0.Y += v1.Y;
             v0.Z += v1.Z;
-            v0.W += v1.W;
             return v0;
         }
 
@@ -72,12 +68,11 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d operator -(Vector4d v0, Vector4d v1)
+        public static Vector3f operator -(Vector3f v0, Vector3f v1)
         {
             v0.X -= v1.X;
             v0.Y -= v1.Y;
             v0.Z -= v1.Z;
-            v0.W -= v1.W;
             return v0;
         }
 
@@ -87,12 +82,11 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Vector4d operator -(Vector4d vector)
+        public static Vector3f operator -(Vector3f vector)
         {
             vector.X = -vector.X;
             vector.Y = -vector.Y;
             vector.Z = -vector.Z;
-            vector.W = -vector.W;
             return vector;
         }
 
@@ -103,15 +97,14 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        public static Vector4d operator *(Vector4d vector, double scalar)
+        public static Vector3f operator *(Vector3f vector, float scalar)
         {
             vector.X *= scalar;
             vector.Y *= scalar;
             vector.Z *= scalar;
-            vector.W *= scalar;
             return vector;
         }
-
+        
 
         /// <summary>
         /// 
@@ -119,12 +112,11 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        public static Vector4d operator *(double scalar, Vector4d vector)
+        public static Vector3f operator *(float scalar, Vector3f vector)
         {
             vector.X *= scalar;
             vector.Y *= scalar;
             vector.Z *= scalar;
-            vector.W *= scalar;
             return vector;
         }
 
@@ -135,12 +127,11 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d operator *(Vector4d v0, Vector4d v1)
+        public static Vector3f operator *(Vector3f v0, Vector3f v1)
         {
             v0.X *= v1.X;
             v0.Y *= v1.Y;
             v0.Z *= v1.Z;
-            v0.W *= v1.W;
             return v0;
         }
 
@@ -151,13 +142,12 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        public static Vector4d operator /(Vector4d vector, double scalar)
+        public static Vector3f operator /(Vector3f vector, float scalar)
         {
-            scalar = 1.0 / scalar;
+            scalar = 1.0f / scalar;
             vector.X *= scalar;
             vector.Y *= scalar;
             vector.Z *= scalar;
-            vector.W *= scalar;
             return vector;
         }
 
@@ -168,15 +158,13 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        public static Vector4d operator /(double scalar, Vector4d vector)
+        public static Vector3f operator /(float scalar, Vector3f vector)
         {
             vector.X = scalar / vector.X;
             vector.Y = scalar / vector.Y;
             vector.Z = scalar / vector.Z;
-            vector.W = scalar / vector.W;
             return vector;
         }
-
 
 
         /// <summary>
@@ -185,12 +173,11 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d operator /(Vector4d v0, Vector4d v1)
+        public static Vector3f operator /(Vector3f v0, Vector3f v1)
         {
             v0.X /= v1.X;
             v0.Y /= v1.Y;
             v0.Z /= v1.Z;
-            v0.W /= v1.W;
             return v0;
         }
 
@@ -201,13 +188,12 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Vector4d Max(Vector4d vector, double value)
+        public static Vector3f Max(Vector3f vector, float value)
         {
-            return new Vector4d(
+            return new Vector3f(
                 Math.Max(vector.X, value), 
                 Math.Max(vector.Y, value), 
-                Math.Max(vector.Z, value), 
-                Math.Max(vector.W, value));
+                Math.Max(vector.Z, value));
         }
 
 
@@ -217,29 +203,12 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d Max(Vector4d v0, Vector4d v1)
+        public static Vector3f Max(Vector3f v0, Vector3f v1)
         {
-            return new Vector4d(
+            return new Vector3f(
                 Math.Max(v0.X, v1.X), 
                 Math.Max(v0.Y, v1.Y), 
-                Math.Max(v0.Z, v1.Z), 
-                Math.Max(v0.W, v1.W));
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="v0"></param>
-        /// <param name="v1"></param>
-        /// <returns></returns>
-        public static Vector4d Min(Vector4d v0, Vector4d v1)
-        {
-            return new Vector4d(
-                Math.Min(v0.X, v1.X), 
-                Math.Min(v0.Y, v1.Y), 
-                Math.Min(v0.Z, v1.Z),
-                Math.Min(v0.W, v1.W));
+                Math.Max(v0.Z, v1.Z));
         }
 
 
@@ -249,13 +218,27 @@ namespace SpatialSlur
         /// <param name="vector"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Vector4d Min(Vector4d vector, double value)
+        public static Vector3f Min(Vector3f vector, float value)
         {
-            return new Vector4d(
+            return new Vector3f(
                 Math.Min(vector.X, value), 
                 Math.Min(vector.Y, value), 
-                Math.Min(vector.Z, value), 
-                Math.Min(vector.W, value));
+                Math.Min(vector.Z, value));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        /// <returns></returns>
+        public static Vector3f Min(Vector3f v0, Vector3f v1)
+        {
+            return new Vector3f(
+                Math.Min(v0.X, v1.X), 
+                Math.Min(v0.Y, v1.Y), 
+                Math.Min(v0.Z, v1.Z));
         }
 
 
@@ -264,13 +247,54 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        public static Vector4d Abs(Vector4d vector)
+        public static Vector3f Abs(Vector3f vector)
         {
-            return new Vector4d(
+            return new Vector3f(
                 Math.Abs(vector.X), 
                 Math.Abs(vector.Y), 
-                Math.Abs(vector.Z), 
-                Math.Abs(vector.W));
+                Math.Abs(vector.Z));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static Vector3f Floor(Vector3f vector)
+        {
+            return new Vector3f(
+               SlurMath.Floor(vector.X),
+               SlurMath.Floor(vector.Y),
+               SlurMath.Floor(vector.Z));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static Vector3f Ceiling(Vector3f vector)
+        {
+            return new Vector3f(
+               SlurMath.Ceiling(vector.X),
+               SlurMath.Ceiling(vector.Y),
+               SlurMath.Ceiling(vector.Z));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        public static Vector3f Round(Vector3f vector)
+        {
+            return new Vector3f(
+               SlurMath.Round(vector.X),
+               SlurMath.Round(vector.Y),
+               SlurMath.Round(vector.Z));
         }
 
         
@@ -278,44 +302,14 @@ namespace SpatialSlur
         /// 
         /// </summary>
         /// <param name="vector"></param>
+        /// <param name="whole"></param>
         /// <returns></returns>
-        public static Vector4d Floor(Vector4d vector)
+        public static Vector3f Fract(Vector3f vector, out Vector3i whole)
         {
-            return new Vector4d(
-               Math.Floor(vector.X),
-               Math.Floor(vector.Y),
-               Math.Floor(vector.Z),
-               Math.Floor(vector.W));
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vector"></param>
-        /// <returns></returns>
-        public static Vector4d Ceiling(Vector4d vector)
-        {
-            return new Vector4d(
-               Math.Ceiling(vector.X),
-               Math.Ceiling(vector.Y),
-               Math.Ceiling(vector.Z),
-               Math.Ceiling(vector.W));
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="vector"></param>
-        /// <returns></returns>
-        public static Vector4d Round(Vector4d vector)
-        {
-            return new Vector4d(
-               Math.Round(vector.X),
-               Math.Round(vector.Y),
-               Math.Round(vector.Z),
-               Math.Round(vector.W));
+            return new Vector3f(
+               SlurMath.Fract(vector.X, out whole.X),
+               SlurMath.Fract(vector.Y, out whole.Y),
+               SlurMath.Fract(vector.Z, out whole.Z));
         }
 
 
@@ -325,9 +319,9 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static double Dot(Vector4d v0, Vector4d v1)
+        public static float Dot(Vector3f v0, Vector3f v1)
         {
-            return v0.X * v1.X + v0.Y * v1.Y + v0.Z * v1.Z + v0.W * v1.W;
+            return v0.X * v1.X + v0.Y * v1.Y + v0.Z * v1.Z;
         }
 
 
@@ -337,24 +331,90 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static double AbsDot(Vector4d v0, Vector4d v1)
+        public static float AbsDot(Vector3f v0, Vector3f v1)
         {
-            return Math.Abs(v0.X * v1.X) + Math.Abs(v0.Y * v1.Y) + Math.Abs(v0.Z * v1.Z) + Math.Abs(v0.W * v1.W);
+            return Math.Abs(v0.X * v1.X) + Math.Abs(v0.Y * v1.Y) + Math.Abs(v0.Z * v1.Z);
         }
 
 
         /// <summary>
-        /// Returns the angle between two vectors.
+        /// 
         /// </summary>
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static double Angle(Vector4d v0, Vector4d v1)
+        public static Vector3f Cross(Vector3f v0, Vector3f v1)
         {
-            double d = v0.SquareLength * v1.SquareLength;
-            return d > 0.0 ? SlurMath.AcosSafe(Dot(v0, v1) / Math.Sqrt(d)) : 0.0;
+            return new Vector3f(
+                v0.Y * v1.Z - v0.Z * v1.Y,
+                v0.Z * v1.X - v0.X * v1.Z,
+                v0.X * v1.Y - v0.Y * v1.X);
+        }
+        
+
+        /// <summary>
+        /// Returns the box product or scalar triple product of the given vectors (i.e. u x v . w)
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="v"></param>
+        /// <param name="w"></param>
+        /// <returns></returns>
+        public static float ScalarTriple(Vector3f u, Vector3f v, Vector3f w)
+        {
+            return Dot(Cross(u, v), w);
         }
 
+
+        /// <summary>
+        /// Returns the vector triple product of the given vectors (i.e. u x v x w)
+        /// </summary>
+        /// <param name="u"></param>
+        /// <param name="v"></param>
+        /// <param name="w"></param>
+        /// <returns></returns>
+        public static Vector3f VectorTriple(Vector3f u, Vector3f v, Vector3f w)
+        {
+            return v * Cross(u, w) - w * Cross(u, v);
+        }
+
+
+        /// <summary>
+        /// Returns the minimum angle between two vectors.
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        /// <returns></returns>
+        public static float Angle(Vector3f v0, Vector3f v1)
+        {
+            var d = v0.SquareLength * v1.SquareLength;
+            return d > 0.0f ? SlurMath.AcosSafe(Dot(v0, v1) / SlurMath.Sqrt(d)) : 0.0f;
+        }
+
+
+        /// <summary>
+        /// Returns the signed angle between two vectors.
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        /// <param name="up"></param>
+        /// <returns></returns>
+        public static float SignedAngle(Vector3f v0, Vector3f v1, Vector3f up)
+        {
+            var c = Cross(v0, v1);
+            return SlurMath.Atan2(c.Length * Math.Sign(Dot(c, up)), Dot(v0, v1));
+        }
+
+
+        /// <summary>
+        /// Returns the cotangent of the angle between 2 vectors as per http://www.cs.columbia.edu/~keenan/Projects/Other/TriangleAreasCheatSheet.pdf.
+        /// </summary>
+        /// <param name="v0"></param>
+        /// <param name="v1"></param>
+        /// <returns></returns>
+        public static float Cotangent(Vector3f v0, Vector3f v1)
+        {
+            return Dot(v0, v1) / Cross(v0, v1).Length;
+        }
 
 
         /// <summary>
@@ -363,7 +423,7 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d Project(Vector4d v0, Vector4d v1)
+        public static Vector3f Project(Vector3f v0, Vector3f v1)
         {
             return Dot(v0, v1) / v1.SquareLength * v1;
         }
@@ -376,7 +436,7 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d Reject(Vector4d v0, Vector4d v1)
+        public static Vector3f Reject(Vector3f v0, Vector3f v1)
         {
             return v0 - Project(v0, v1);
         }
@@ -388,10 +448,10 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d Reflect(Vector4d v0, Vector4d v1)
+        public static Vector3f Reflect(Vector3f v0, Vector3f v1)
         {
             //return Project(v0, v1) * 2.0 - v0;
-            return v1 * (Dot(v0, v1) / v1.SquareLength * 2.0) - v0;
+            return v1 * (Dot(v0, v1) / v1.SquareLength * 2.0f) - v0;
         }
 
 
@@ -401,7 +461,7 @@ namespace SpatialSlur
         /// <param name="v0"></param>
         /// <param name="v1"></param>
         /// <returns></returns>
-        public static Vector4d MatchProjection(Vector4d v0, Vector4d v1)
+        public static Vector3f MatchProjection(Vector3f v0, Vector3f v1)
         {
             return v1.SquareLength / Dot(v0, v1) * v0;
         }
@@ -414,7 +474,7 @@ namespace SpatialSlur
         /// <param name="v1"></param>
         /// <param name="v2"></param>
         /// <returns></returns>
-        public static Vector4d MatchProjection(Vector4d v0, Vector4d v1, Vector4d v2)
+        public static Vector3f MatchProjection(Vector3f v0, Vector3f v1, Vector3f v2)
         {
             return Dot(v1, v2) / Dot(v0, v2) * v0;
         }
@@ -427,7 +487,7 @@ namespace SpatialSlur
         /// <param name="v1"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public static Vector4d Lerp(Vector4d v0, Vector4d v1, double factor)
+        public static Vector3f Lerp(Vector3f v0, Vector3f v1, float factor)
         {
             return v0.LerpTo(v1, factor);
         }
@@ -440,7 +500,7 @@ namespace SpatialSlur
         /// <param name="v1"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public static Vector4d Slerp(Vector4d v0, Vector4d v1, double factor)
+        public static Vector3f Slerp(Vector3f v0, Vector3f v1, float factor)
         {
             return v0.SlerpTo(v1, Angle(v0, v1), factor);
         }
@@ -454,7 +514,7 @@ namespace SpatialSlur
         /// <param name="angle"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public static Vector4d Slerp(Vector4d v0, Vector4d v1, double angle, double factor)
+        public static Vector3f Slerp(Vector3f v0, Vector3f v1, float angle, float factor)
         {
             return v0.SlerpTo(v1, angle, factor);
         }
@@ -463,22 +523,20 @@ namespace SpatialSlur
 
 
         /// <summary></summary>
-        public double X;
+        public float X;
         /// <summary></summary>
-        public double Y;
+        public float Y;
         /// <summary></summary>
-        public double Z;
-        /// <summary></summary>
-        public double W;
+        public float Z;
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="xyzw"></param>
-        public Vector4d(double xyzw)
+        /// <param name="xyz"></param>
+        public Vector3f(float xyz)
         {
-            X = Y = Z = W = xyzw;
+            X = Y = Z = xyz;
         }
 
 
@@ -488,61 +546,36 @@ namespace SpatialSlur
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        /// <param name="w"></param>
-        public Vector4d(double x, double y, double z, double w)
+        public Vector3f(float x, float y, float z)
         {
             X = x;
             Y = y;
             Z = z;
-            W = w;
         }
 
 
+#if false
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <param name="z"></param>
-        /// <param name="w"></param>
-        public Vector4d(Vector2d other, double z, double w)
+        public Vector3f(Vector2f other, float z)
         {
             X = other.X;
             Y = other.Y;
             Z = z;
-            W = w;
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="other"></param>
-        /// <param name="w"></param>
-        public Vector4d(Vector3d other, double w)
+        public Vector2f XY
         {
-            X = other.X;
-            Y = other.Y;
-            Z = other.Z;
-            W = w;
+            get { return new Vector2f(X, Y); }
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Vector2d XY
-        {
-            get { return new Vector2d(X, Y); }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Vector3d XYZ
-        {
-            get { return new Vector3d(X, Y, Z); }
-        }
+#endif
 
 
         /// <summary>
@@ -550,7 +583,7 @@ namespace SpatialSlur
         /// Returns the zero vector if this vector is zero length.
         /// </summary>
         /// <returns></returns>
-        public Vector4d Unit
+        public Vector3f Unit
         {
             get
             {
@@ -563,18 +596,10 @@ namespace SpatialSlur
         /// <summary>
         /// 
         /// </summary>
-        public double Length
+        /// <returns></returns>
+        public float Length
         {
-            get { return Math.Sqrt(SquareLength); }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public double SquareLength
-        {
-            get { return X * X + Y * Y + Z * Z + W * W; }
+            get { return SlurMath.Sqrt(SquareLength); }
         }
 
 
@@ -582,27 +607,41 @@ namespace SpatialSlur
         /// 
         /// </summary>
         /// <returns></returns>
-        public double ManhattanLength
+        public float SquareLength
         {
-            get { return Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z) + Math.Abs(W); }
+            get { return X * X + Y * Y + Z * Z; }
         }
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public float ManhattanLength
+        {
+            get { return Math.Abs(X) + Math.Abs(Y) + Math.Abs(Z); }
+        }
+        
+
+        /// <summary>
         /// Returns the sum of components.
         /// </summary>
-        public double ComponentSum
+        public float ComponentSum
         {
-            get { return X + Y + Z + W; }
+            get { return X + Y + Z; }
         }
 
 
         /// <summary>
         /// Returns the mean of components.
         /// </summary>
-        public double ComponentMean
+        public float ComponentMean
         {
-            get { return (X + Y + Z + W) * 0.25; }
+            get
+            {
+                const float inv3 = 1.0f / 3.0f;
+                return (X + Y + Z) * inv3;
+            }
         }
 
 
@@ -610,9 +649,9 @@ namespace SpatialSlur
         /// Returns the largest component in the vector.
         /// </summary>
         /// <returns></returns>
-        public double ComponentMax
+        public float ComponentMax
         {
-            get { return Math.Max(X, Math.Max(Y, Math.Max(Z, W))); }
+            get { return Math.Max(X, Math.Max(Y, Z)); }
         }
 
 
@@ -620,16 +659,44 @@ namespace SpatialSlur
         /// Returns the smallest component in the vector.
         /// </summary>
         /// <returns></returns>
-        public double ComponentMin
+        public float ComponentMin
         {
-            get { return Math.Min(X, Math.Min(Y, Math.Min(Z, W))); }
+            get { return Math.Min(X, Math.Min(Y, Z)); }
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        public bool IsZero(double tolerance = D.ZeroTolerance)
+        public Vector3d As3d
+        {
+            get => new Vector3d(X, Y, Z);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector3i As3i
+        {
+            get => new Vector3i((int)X, (int)Y, (int)Z);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector4d As4d
+        {
+            get => new Vector4d(X, Y, Z, 0.0);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsZero(float tolerance = F.ZeroTolerance)
         {
             return SquareLength < tolerance;
         }
@@ -638,26 +705,26 @@ namespace SpatialSlur
         /// <summary>
         /// 
         /// </summary>
-        public bool IsUnit(double tolerance = D.ZeroTolerance)
+        public bool IsUnit(float tolerance = F.ZeroTolerance)
         {
-            return Math.Abs(SquareLength - 1.0) < tolerance;
+            return SlurMath.ApproxEquals(SquareLength, 1.0f, tolerance);
         }
 
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"({X}, {Y}, {Z}, {W})";
+            return $"({X}, {Y}, {Z})";
         }
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="xyzw"></param>
-        public void Set(double xyzw)
+        /// <param name="xyz"></param>
+        public void Set(float xyz)
         {
-            X = Y = Z = W = xyzw;
+            X = Y = Z = xyz;
         }
 
 
@@ -667,13 +734,35 @@ namespace SpatialSlur
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        /// <param name="w"></param>
-        public void Set(double x, double y, double z, double w)
+        public void Set(float x, float y, float z)
         {
             X = x;
             Y = y;
             Z = z;
-            W = w;
+        }
+
+
+        /// <summary>
+        /// Converts from euclidean to spherical coordiantes.
+        /// (x,y,z) = (radius, azimuth, polar)
+        /// </summary>
+        /// <returns></returns>
+        public Vector3f ToSpherical()
+        {
+            float r = Length;
+            return new Vector3f(r, SlurMath.Atan(Y / X), SlurMath.AcosSafe(Z / r));
+        }
+
+
+        /// <summary>
+        /// Converts from spherical to euclidean coordiantes.
+        /// (x,y,z) = (radius, azimuth, polar)
+        /// </summary>
+        /// <returns></returns>
+        public Vector3f ToEuclidean()
+        {
+            float rxy = SlurMath.Sin(Z) * X * X;
+            return new Vector3f(SlurMath.Cos(Y) * rxy, SlurMath.Sin(Y) * rxy, SlurMath.Cos(Z) * X);
         }
 
 
@@ -683,13 +772,12 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Vector4d other, double epsilon = D.ZeroTolerance)
+        public bool ApproxEquals(Vector3f other, float epsilon = F.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(X, other.X, epsilon) &&
                 SlurMath.ApproxEquals(Y, other.Y, epsilon) &&
-                SlurMath.ApproxEquals(Z, other.Z, epsilon) &&
-                SlurMath.ApproxEquals(W, other.W, epsilon);
+                SlurMath.ApproxEquals(Z, other.Z, epsilon);
         }
 
 
@@ -698,12 +786,11 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public double DistanceTo(Vector4d other)
+        public float DistanceTo(Vector3f other)
         {
             other.X -= X;
             other.Y -= Y;
             other.Z -= Z;
-            other.W -= W;
             return other.Length;
         }
 
@@ -713,12 +800,11 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public double SquareDistanceTo(Vector4d other)
+        public float SquareDistanceTo(Vector3f other)
         {
             other.X -= X;
             other.Y -= Y;
             other.Z -= Z;
-            other.W -= W;
             return other.SquareLength;
         }
 
@@ -728,12 +814,11 @@ namespace SpatialSlur
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public double ManhattanDistanceTo(Vector4d other)
+        public float ManhattanDistanceTo(Vector3f other)
         {
             other.X -= X;
             other.Y -= Y;
             other.Z -= Z;
-            other.W -= W;
             return other.ManhattanLength;
         }
 
@@ -744,15 +829,14 @@ namespace SpatialSlur
         /// </summary>
         public bool Unitize()
         {
-            double d = SquareLength;
+            float d = SquareLength;
 
-            if (d > 0.0)
+            if (d > 0.0f)
             {
-                d = 1.0 / Math.Sqrt(d);
+                d = 1.0f / SlurMath.Sqrt(d);
                 X *= d;
                 Y *= d;
                 Z *= d;
-                W *= d;
                 return true;
             }
 
@@ -768,7 +852,6 @@ namespace SpatialSlur
             X = -X;
             Y = -Y;
             Z = -Z;
-            W = -W;
         }
 
 
@@ -778,13 +861,12 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public Vector4d LerpTo(Vector4d other, double factor)
+        public Vector3f LerpTo(Vector3f other, float factor)
         {
-            return new Vector4d(
+            return new Vector3f(
                 X + (other.X - X) * factor,
                 Y + (other.Y - Y) * factor,
-                Z + (other.Z - Z) * factor,
-                W + (other.W - W) * factor);
+                Z + (other.Z - Z) * factor);
         }
 
 
@@ -794,7 +876,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public Vector4d SlerpTo(Vector4d other, double factor)
+        public Vector3f SlerpTo(Vector3f other, float factor)
         {
             return SlerpTo(other, Angle(this, other), factor);
         }
@@ -807,16 +889,16 @@ namespace SpatialSlur
         /// <param name="angle"></param>
         /// <param name="factor"></param>
         /// <returns></returns>
-        public Vector4d SlerpTo(Vector4d other, double angle, double factor)
+        public Vector3f SlerpTo(Vector3f other, float angle, float factor)
         {
-            double sa = Math.Sin(angle);
+            var sa = SlurMath.Sin(angle);
 
             // handle aligned cases
-            if (sa > 0.0)
+            if (sa > 0.0f)
             {
-                var saInv = 1.0 / sa;
+                var saInv = 1.0f / sa;
                 var af = angle * factor;
-                return this * Math.Sin(angle - af) * saInv + other * Math.Sin(af) * saInv;
+                return this * SlurMath.Sin(angle - af) * saInv + other * SlurMath.Sin(af) * saInv;
             }
 
             return this;
@@ -824,12 +906,42 @@ namespace SpatialSlur
 
 
         /// <summary>
+        /// Returns the cross product of this vector vector with the x Axis
+        /// </summary>
+        /// <returns></returns>
+        public Vector3f CrossX()
+        {
+            return new Vector3f(0.0f, Z, -Y);
+        }
+
+
+        /// <summary>
+        /// Returns the cross product of this vector with the Y Axis
+        /// </summary>
+        /// <returns></returns>
+        public Vector3f CrossY()
+        {
+            return new Vector3f(-Z, 0.0f, X);
+        }
+
+
+        /// <summary>
+        /// Returns the cross product of this vector with the Y Axis
+        /// </summary>
+        /// <returns></returns>
+        public Vector3f CrossZ()
+        {
+            return new Vector3f(Y, -X, 0.0f);
+        }
+
+
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public double[] ToArray()
+        public float[] ToArray()
         {
-            var result = new double[4];
+            var result = new float[3];
             ToArray(result);
             return result;
         }
@@ -839,12 +951,11 @@ namespace SpatialSlur
         /// 
         /// </summary>
         /// <param name="result"></param>
-        public void ToArray(double[] result)
+        public void ToArray(float[] result)
         {
             result[0] = X;
             result[1] = Y;
             result[2] = Z;
-            result[3] = W;
         }
 
 
@@ -854,13 +965,11 @@ namespace SpatialSlur
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        /// <param name="w"></param>
-        public void Deconstruct(out double x, out double y, out double z, out double w)
+        public void Deconstruct(out float x, out float y, out float z)
         {
             x = X;
             y = Y;
             z = Z;
-            w = W;
         }
     }
 }

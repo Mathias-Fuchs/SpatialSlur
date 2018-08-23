@@ -7,11 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using F = SpatialSlur.SlurMath.Constantsf;
+
 namespace SpatialSlur
 {
     /// <summary>
     /// Represents a single precision interval.
-    /// https://en.wikipedia.org/wiki/Interval_(mathematics)
     /// </summary>
     [Serializable]
     public partial struct Intervalf
@@ -102,6 +103,7 @@ namespace SpatialSlur
         }
 
 
+#if OBSOLETE
         /// <summary>
         /// Returns the union of a and b.
         /// </summary>
@@ -138,6 +140,7 @@ namespace SpatialSlur
         {
             throw new NotImplementedException();
         }
+#endif
 
         #endregion
 
@@ -179,7 +182,7 @@ namespace SpatialSlur
             A = B = values.First();
 
             foreach (var t in values.Skip(1))
-                IncludeIncreasing(t);
+                IncludePos(t);
         }
 
 
@@ -292,7 +295,7 @@ namespace SpatialSlur
         /// <param name="other"></param>
         /// <param name="epsilon"></param>
         /// <returns></returns>
-        public bool ApproxEquals(Intervalf other, float epsilon = SlurMath.ZeroTolerancef)
+        public bool ApproxEquals(Intervalf other, float epsilon = F.ZeroTolerance)
         {
             return
                 SlurMath.ApproxEquals(A, other.A, epsilon) &&
@@ -378,18 +381,16 @@ namespace SpatialSlur
             return SlurMath.SmootherStep(t, A, B);
         }
 
-
-        /*
+        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        public float Wrap(float t)
+        public float Repeat(float t)
         {
-            return SlurMath.Wrap(t, A, B);
+            return SlurMath.Repeat(t, A, B);
         }
-        */
 
 
         /// <summary>
@@ -468,9 +469,28 @@ namespace SpatialSlur
         public void Include(float t)
         {
             if (IsDecreasing)
-                IncludeDecreasing(t);
+                IncludeNeg(t);
             else
-                IncludeIncreasing(t);
+                IncludePos(t);
+        }
+
+
+        /// <summary>
+        /// Expands this interval to include another
+        /// </summary>
+        /// <param name="other"></param>
+        public void Include(Intervalf other)
+        {
+            if (IsDecreasing)
+            {
+                IncludeNeg(other.A);
+                IncludeNeg(other.B);
+            }
+            else
+            {
+                IncludePos(other.A);
+                IncludePos(other.B);
+            }
         }
 
 
@@ -478,7 +498,7 @@ namespace SpatialSlur
         /// 
         /// </summary>
         /// <param name="t"></param>
-        internal void IncludeDecreasing(float t)
+        internal void IncludeNeg(float t)
         {
             if (t > A) A = t;
             else if (t < B) B = t;
@@ -489,21 +509,10 @@ namespace SpatialSlur
         /// 
         /// </summary>
         /// <param name="t"></param>
-        internal void IncludeIncreasing(float t)
+        internal void IncludePos(float t)
         {
             if (t > B) B = t;
             else if (t < A) A = t;
-        }
-
-
-        /// <summary>
-        /// Expands this interval to include another
-        /// </summary>
-        /// <param name="other"></param>
-        public void Include(Intervalf other)
-        {
-            Include(other.A);
-            Include(other.B);
         }
 
 
