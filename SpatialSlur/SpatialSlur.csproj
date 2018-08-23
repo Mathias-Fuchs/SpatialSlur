@@ -247,6 +247,7 @@
     <Compile Include="Fields\Derived\IDWField3dVector3d.cs" />
     <Compile Include="Fields\Derived\MeshField3dDouble.cs" />
     <Compile Include="Fields\Derived\MeshField3dVector3d.cs" />
+    <Compile Include="Fields\DistanceFunctions.cs" />
     <Compile Include="Fields\Enums\IntegrationMode.cs" />
     <Compile Include="Fields\Enums\SampleMode.cs" />
     <Compile Include="Fields\Enums\WrapMode.cs" />
