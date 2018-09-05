@@ -18,9 +18,6 @@ namespace SpatialSlur.Collections
     {
         #region Static Members
 
-        private const string _emptyMessage = "The queue is empty.";
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -107,7 +104,7 @@ namespace SpatialSlur.Collections
             get
             {
                 if (IsEmpty)
-                    throw new InvalidOperationException(_emptyMessage);
+                    throw new InvalidOperationException("The queue is empty.");
 
                 return _items[0];
             }
@@ -146,13 +143,12 @@ namespace SpatialSlur.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void ReplaceMin(K key, V value)
+        public (K Key, V value) ReplaceMin(K key, V value)
         {
-            if (IsEmpty)
-                throw new InvalidOperationException(_emptyMessage);
-
+            var min = Min;
             _items[0] = (key, value);
             Sink(0); // maintain heap invariant
+            return min;
         }
 
 
