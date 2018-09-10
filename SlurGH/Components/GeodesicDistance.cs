@@ -67,6 +67,7 @@ namespace SpatialSlur.Grasshopper.Components
         /// <inheritdoc />
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "MF");
             GH_ObjectWrapper costGoo = null;
             if (!DA.GetData(0, ref costGoo)) return;
 
